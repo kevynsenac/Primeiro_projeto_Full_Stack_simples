@@ -1,0 +1,124 @@
+/* CSS Simples e Objetivo */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.container { max-width: 800px; width: 100%; }
+h1 { text-align: center; color: #1a73e8; }
+
+/* Formulário */
+#form-corrida {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.form-group {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+}
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #555;
+}
+.form-group input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+}
+.form-group input:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.form-buttons {
+    flex: 1 1 100%;
+    display: flex;
+    gap: 10px;
+}
+.form-buttons button {
+    padding: 14px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#btn-salvar {
+    background-color: #1a73e8;
+    flex: 2; /* Botão principal maior */
+}
+#btn-salvar:hover { background-color: #1865c9; }
+
+#btn-cancelar {
+    background-color: #6c757d;
+    flex: 1;
+}
+#btn-cancelar:hover { background-color: #5a6268; }
+
+#btn-random {
+    background-color: #fd7e14;
+    flex: 1;
+}
+#btn-random:hover { background-color: #e66a00; }
+
+/* Lista/Histórico */
+h2 { border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+#lista-corridas { list-style: none; padding: 0; }
+.corrida-item {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.corrida-info { flex: 1 1 300px; }
+.corrida-info strong { font-size: 1.2em; color: #1a73e8; }
+.corrida-info p { margin: 5px 0 0; color: #555; }
+.corrida-stats { flex: 1 1 200px; text-align: right; font-weight: 600; }
+.corrida-stats .pace { color: #0d8050; font-size: 1.1em; }
+.corrida-acoes { flex: 1 1 100px; text-align: right; display: flex; gap: 8px; justify-content: flex-end; }
+
+.btn-excluir, .btn-editar {
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+.btn-excluir { background-color: #e63946; } /* Vermelho */
+.btn-excluir:hover { background-color: #d02b3a; }
+
+.btn-editar { background-color: #007bff; } /* Azul */
+.btn-editar:hover { background-color: #0069d9; }
+
+#loading, #error-message {
+    text-align: center;
+    padding: 20px;
+    display: none; 
+    color: #d9534f;
+}
+#loading { color: #555; }
