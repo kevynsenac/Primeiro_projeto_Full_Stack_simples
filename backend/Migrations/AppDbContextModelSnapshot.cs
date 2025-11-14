@@ -15,7 +15,7 @@ namespace CorridaApi.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "10.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
 
             modelBuilder.Entity("CorridaApi.Models.Corrida", b =>
                 {
@@ -26,18 +26,21 @@ namespace CorridaApi.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("DistanciaKm")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10, 2)");
+                    b.Property<double>("DistanciaKm")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Local")
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("TempoMinutos")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("tb_corridas");
                 });
@@ -48,27 +51,33 @@ namespace CorridaApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("NomeUsuario")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SenhaHash")
                         .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.ToTable("tb_usuarios");
+                });
+
+            modelBuilder.Entity("CorridaApi.Models.Corrida", b =>
+                {
+                    b.HasOne("CorridaApi.Models.Usuario", "Usuario")
+                        .WithMany("Corridas")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CorridaApi.Models.Usuario", b =>
+                {
+                    b.Navigation("Corridas");
                 });
 #pragma warning restore 612, 618
         }

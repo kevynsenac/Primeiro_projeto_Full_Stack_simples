@@ -1,0 +1,106 @@
+:root {
+    --cor-fundo-principal: #121212;
+    --cor-fundo-secundaria: #1E1E1E;
+    --cor-destaque: #00FF7F;
+    --cor-texto-claro: #F0F0F0;
+    --cor-texto-secundario: #AAAAAA;
+    --cor-vermelho: #e63946;
+    --fonte-principal: 'Montserrat', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--fonte-principal);
+    background-color: var(--cor-fundo-principal);
+    color: var(--cor-texto-claro);
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.login-box {
+    background-color: var(--cor-fundo-secundaria);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 127, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 25px;
+    color: var(--cor-destaque);
+    font-size: 2rem;
+}
+
+.login-box h3 {
+    margin-bottom: 15px;
+    font-weight: 400;
+    color: var(--cor-texto-secundario);
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    margin: 25px 0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #2a2a2a;
+    color: var(--cor-texto-claro);
+    font-family: var(--fonte-principal);
+    font-size: 1em;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--cor-destaque);
+}
+
+.btn-login, .btn-register {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: var(--fonte-principal);
+    font-size: 1em;
+}
+
+.btn-login {
+    background-color: var(--cor-destaque);
+    color: var(--cor-fundo-principal);
+}
+.btn-login:hover { background-color: #00e676; }
+
+.btn-register {
+    background-color: #007bff;
+    color: white;
+}
+.btn-register:hover { background-color: #0069d9; }
+
+.error-message {
+    color: var(--cor-vermelho);
+    font-size: 0.9em;
+    margin-top: 10px;
+    display: none; /* Começa escondido */
+}

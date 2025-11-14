@@ -1,26 +1,21 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CorridaApi.Models
 {
-    // Modelo para a futura implementação de login
-    [Table("tb_usuarios")]
     public class Usuario
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100)]
-        public string Nome { get; set; } = string.Empty;
+        public string NomeUsuario { get; set; } = string.Empty;
 
         [Required]
-        [EmailAddress]
-        [StringLength(100)]
-        public string Email { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(255)]
+        [JsonIgnore] // Nunca exponha a senha na API
         public string SenhaHash { get; set; } = string.Empty;
+
+        // Relação: Um utilizador pode ter muitas corridas
+        public ICollection<Corrida> Corridas { get; set; } = new List<Corrida>();
     }
 }

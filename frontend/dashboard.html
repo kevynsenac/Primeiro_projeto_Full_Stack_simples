@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diário De Corrida | Minhas Corridas</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- LINKS ATUALIZADOS -->
+    <link rel="stylesheet" href="dashboard.css"> 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -13,14 +14,17 @@
         <div class="logo">Diário De Corrida</div>
         <nav>
             <a href="#" class="active">Dashboard</a>
+            <!-- BOTÃO SAIR -->
+            <a href="#" id="btn-logout">Sair</a>
         </nav>
     </header>
 
     <main class="container">
-        
+
         <h1>Minhas Corridas</h1>
 
         <form id="form-corrida">
+            <!-- ... O seu formulário (não muda nada aqui) ... -->
             <h2>Registar Nova Corrida</h2>
             <div class="form-grid">
                 <div class="form-group">
@@ -49,13 +53,13 @@
         </form>
 
         <section class="historico-section">
+            <!-- ... A sua lista (não muda nada aqui) ... -->
             <h2>Histórico de Corridas</h2>
-            
             <div id="loading">A carregar histórico...</div>
             <div id="error-message"></div>
-            
             <ul id="lista-corridas">
-                </ul>
+                <!-- Itens de corrida serão inseridos aqui -->
+            </ul>
         </section>
 
     </main>
@@ -64,6 +68,7 @@
         <p>&copy; 2025 Diário De Corrida. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- LINK ATUALIZADO -->
+    <script src="dashboard.js"></script> 
 </body>
 </html>

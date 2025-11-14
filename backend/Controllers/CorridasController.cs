@@ -2,77 +2,103 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CorridaApi.Data;
 using CorridaApi.Models;
+using Microsoft.AspNetCore.Authorization; // <-- OBRIGATÓRIO
+using System.Security.Claims; // <-- OBRIGATÓRIO
 
 namespace CorridaApi.Controllers
 {
-    [Route("api/[controller]")] // Rota base: "api/Corridas"
     [ApiController]
+    [Route("api/[controller]")]
+    [Authorize] // <-- TRANCADO! Só utilizadores logados podem aceder.
     public class CorridasController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly int _userId; // ID do utilizador logado
 
-        public CorridasController(AppDbContext context)
+        public CorridasController(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            
+            // Obtém o ID do utilizador a partir do Cookie (Claim)
+            var userIdClaim = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
+            _userId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
         }
 
-        // --- CRUD COMPLETO PARA A TABELA 'Corrida' ---
-
-        // CREATE: POST /api/Corridas
-        [HttpPost]
-        public async Task<ActionResult<Corrida>> CreateCorrida(Corrida corrida)
-        {
-            if (corrida.DistanciaKm <= 0 || corrida.TempoMinutos <= 0)
-            {
-                return BadRequest("Distância e Tempo devem ser valores positivos.");
-            }
-
-            corrida.Data = corrida.Data.ToUniversalTime(); // Garante fuso horário consistente
-
-            _context.Corridas.Add(corrida);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetCorridaById), new { id = corrida.Id }, corrida);
-        }
-
-        // READ (All): GET /api/Corridas
+        // GET: api/Corridas
+        // (Devolve apenas as corridas DO UTILIZADOR LOGADO)
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Corrida>>> GetCorridas()
         {
-            // Ordena da mais recente para a mais antiga
-            var corridas = await _context.Corridas.OrderByDescending(c => c.Data).ToListAsync();
-            return Ok(corridas);
+            if (_userId == 0) return Unauthorized(); // Segurança extra
+
+            return await _context.tb_corridas
+                .Where(c => c.UsuarioId == _userId) // <-- FILTRO DE SEGURANÇA
+                .OrderByDescending(c => c.Data)
+                .ToListAsync();
         }
 
-        // READ (One): GET /api/Corridas/5
+        // GET: api/Corridas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Corrida>> GetCorridaById(int id)
+        public async Task<ActionResult<Corrida>> GetCorrida(int id)
         {
-            var corrida = await _context.Corridas.FindAsync(id);
+            if (_userId == 0) return Unauthorized();
+
+            var corrida = await _context.tb_corridas
+                .FirstOrDefaultAsync(c => c.Id == id && c.UsuarioId == _userId); // <-- FILTRO DE SEGURANÇA
 
             if (corrida == null)
             {
-                return NotFound(); // Retorna 404
+                return NotFound("Corrida não encontrada ou não pertence a este utilizador.");
             }
 
-            return Ok(corrida);
+            return corrida;
         }
 
-        // UPDATE: PUT /api/Corridas/5
+        // POST: api/Corridas
+        // (Cria uma corrida E atribui-a ao utilizador logado)
+        [HttpPost]
+        public async Task<ActionResult<Corrida>> PostCorrida(Corrida corrida)
+        {
+            if (_userId == 0) return Unauthorized();
+
+            // Validação de segurança (regra de negócio)
+            if (corrida.DistanciaKm <= 0 || corrida.TempoMinutos <= 0)
+            {
+                return BadRequest("Distância e Tempo devem ser maiores que zero.");
+            }
+
+            // "Carimba" a corrida com o ID do utilizador logado
+            corrida.UsuarioId = _userId; 
+
+            _context.tb_corridas.Add(corrida);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetCorrida), new { id = corrida.Id }, corrida);
+        }
+
+        // PUT: api/Corridas/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCorrida(int id, Corrida corrida)
+        public async Task<IActionResult> PutCorrida(int id, Corrida corrida)
         {
             if (id != corrida.Id)
             {
-                return BadRequest("IDs não coincidem.");
+                return BadRequest("IDs não correspondem.");
             }
+            if (_userId == 0) return Unauthorized();
 
-            if (corrida.DistanciaKm <= 0 || corrida.TempoMinutos <= 0)
+            // Verifica se o utilizador é "dono" desta corrida
+            var corridaExistente = await _context.tb_corridas
+                .AsNoTracking() // Importante para o Update
+                .FirstOrDefaultAsync(c => c.Id == id && c.UsuarioId == _userId);
+
+            if (corridaExistente == null)
             {
-                return BadRequest("Distância e Tempo devem ser valores positivos.");
+                return NotFound("Corrida não encontrada ou não pertence a este utilizador.");
             }
             
-            corrida.Data = corrida.Data.ToUniversalTime();
+            // Garante que o UsuarioId não é modificado
+            corrida.UsuarioId = _userId; 
+
             _context.Entry(corrida).State = EntityState.Modified;
 
             try
@@ -81,7 +107,7 @@ namespace CorridaApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Corridas.Any(e => e.Id == id))
+                if (!await _context.tb_corridas.AnyAsync(c => c.Id == id))
                 {
                     return NotFound();
                 }
@@ -91,23 +117,28 @@ namespace CorridaApi.Controllers
                 }
             }
 
-            return NoContent(); // Retorna 204 (Sucesso, sem corpo)
+            return NoContent(); // Sucesso (sem conteúdo)
         }
 
-        // DELETE: DELETE /api/Corridas/5
+        // DELETE: api/Corridas/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCorrida(int id)
         {
-            var corrida = await _context.Corridas.FindAsync(id);
+            if (_userId == 0) return Unauthorized();
+
+            // Verifica se o utilizador é "dono" desta corrida
+            var corrida = await _context.tb_corridas
+                .FirstOrDefaultAsync(c => c.Id == id && c.UsuarioId == _userId);
+
             if (corrida == null)
             {
-                return NotFound();
+                return NotFound("Corrida não encontrada ou não pertence a este utilizador.");
             }
 
-            _context.Corridas.Remove(corrida);
+            _context.tb_corridas.Remove(corrida);
             await _context.SaveChangesAsync();
 
-            return NoContent(); // Retorna 204
+            return NoContent(); // Sucesso (sem conteúdo)
         }
     }
 }
