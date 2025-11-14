@@ -65,37 +65,36 @@ No VSCode, abra as Definições:
 - (Atalho): Ctrl + ,
 - Na barra de pesquisa, escreva: Live Server Host
 - Encontrará a definição Live Server > Settings: Host.
-- Mude o valor de 127.0.0.1 para localhost.
+- Mude o valor de "127.0.0.1" para "localhost".
 - Feche as Definições. O VSCode salva automaticamente.
 
 B. Alteração no Código (Ajustar a Porta da API)
 O seu frontend (JavaScript) precisa de saber em que porta o seu backend (.NET) está a ser executado.
 
 Descubra a Porta do Backend:
-- Abra um terminal, navegue até à pasta backend.
-- Execute dotnet run.
+- Abra um terminal (atalho "Ctrl + J"), navegue até à pasta backend (com "cd backend").
+- Execute "dotnet run".
 - O terminal dirá em qual porta a API está a ouvir (ex: Now listening on: http://localhost:5184).
 
 Atualize o Frontend:
-- Abra o ficheiro frontend/login.js.
-- No topo, altere a constante API_AUTH_URL para a porta correta:
+- Abra o ficheiro "frontend/login.js".
+- No topo, altere a constante "API_AUTH_URL" para a porta correta:
 // Exemplo: se a sua porta for 5184
-const API_AUTH_URL = 'http://localhost:5184/api/Auth';
+- const API_AUTH_URL = 'http://localhost:5184/api/Auth';
 
 Abra o ficheiro frontend/dashboard.js.
-- No topo, altere as constantes API_CORRIDAS_URL e API_AUTH_URL para a mesma porta:
+- No topo, altere as constantes "API_CORRIDAS_URL" e "API_AUTH_URL"  para a mesma porta:
 
 // Exemplo:
-const API_CORRIDAS_URL = 'http://localhost:5184/api/Corridas';
-const API_AUTH_URL = 'http://localhost:5184/api/Auth';
+- const API_CORRIDAS_URL = 'http://localhost:5184/api/Corridas';
+- const API_AUTH_URL = 'http://localhost:5184/api/Auth';
 
 3. Como Executar o Projeto
 Com as configurações acima feitas, o processo é simples. Você precisará de dois terminais abertos.
 
 A. Terminal 1: Executar o Backend (API)
-- Abra o Terminal Integrado do VSCode.
-- Navegue até à pasta backend:
-cd backend
+- Abra o Terminal Integrado do VSCode (atalho "Ctrl + J").
+- Navegue até à pasta backend (com "cd backend")
 
 - (Só na primeira vez) Instale os pacotes .NET:
 dotnet restore
@@ -109,9 +108,8 @@ dotnet run
 - Mantenha este terminal em execução.
 
 B. Terminal 2: Executar o Frontend (Site)
-- (Opcional) Abra um novo Terminal Integrado no VSCode (clicando no ícone "+").
 - No Explorador de Ficheiros do VSCode (à esquerda), navegue até à pasta frontend.
-- Clique com o botão direito no ficheiro frontend/login.html.
+- Clique com o botão direito no ficheiro "frontend/login.html".
 - Selecione "Open with Live Server".
 
 O seu navegador será aberto automaticamente (ex: http://localhost:5500/frontend/login.html) e a aplicação estará pronta a ser utilizada.
