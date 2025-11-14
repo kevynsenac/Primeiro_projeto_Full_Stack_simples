@@ -43,7 +43,7 @@ Base de Dados:
 
 1. Software Necessário (Pré-requisitos)
 Antes de executar, garanta que tem o seguinte software instalado:
-* [.NET SDK]: Versão 8.0 ou 9.0 (necessário para dotnet run).
+* [.NET SDK]: Versão 8.0 (necessário para dotnet run).
 * [Visual Studio Code]: O editor de código.
 
 Extensões do VSCode:
