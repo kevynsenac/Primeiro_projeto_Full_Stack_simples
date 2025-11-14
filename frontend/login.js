@@ -17,7 +17,6 @@ const registerError = document.getElementById('register-error');
  * Redireciona para o dashboard
  */
 function irParaDashboard() {
-    // --- CORREÇÃO (INÍCIO) ---
     // Adicionamos um pequeno atraso (100ms) antes de redirecionar.
     // Isto dá tempo ao navegador para processar o Set-Cookie que acabou de
     // receber do pedido de login/registo, resolvendo a "race condition"
@@ -25,7 +24,6 @@ function irParaDashboard() {
     setTimeout(() => {
         window.location.href = 'dashboard.html';
     }, 100); 
-    // --- CORREÇÃO (FIM) ---
 }
 
 /**
@@ -34,7 +32,7 @@ function irParaDashboard() {
 formLogin.addEventListener('submit', async (e) => {
     e.preventDefault();
     loginError.style.display = 'none';
-    registerError.style.display = 'none'; // Limpa o outro erro
+    registerError.style.display = 'none';
 
     const authRequest = {
         nomeUsuario: loginUsername.value,
@@ -67,7 +65,7 @@ formLogin.addEventListener('submit', async (e) => {
 formRegister.addEventListener('submit', async (e) => {
     e.preventDefault();
     registerError.style.display = 'none';
-    loginError.style.display = 'none'; // Limpa o outro erro
+    loginError.style.display = 'none';
 
     const authRequest = {
         nomeUsuario: registerUsername.value,

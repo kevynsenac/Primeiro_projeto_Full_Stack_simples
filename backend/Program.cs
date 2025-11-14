@@ -25,9 +25,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.Name = "DiarioCorrida.AuthCookie";
         options.Cookie.HttpOnly = true; // O JavaScript não pode ler o cookie
         
-        // --- MUDANÇA AQUI ---
         // 'Lax' permite que o cookie seja enviado durante a navegação (o redirect)
-        // 'Strict' (o seu anterior) bloqueava isto, causando o loop.
         options.Cookie.SameSite = SameSiteMode.Lax; 
         
         options.ExpireTimeSpan = TimeSpan.FromHours(8);

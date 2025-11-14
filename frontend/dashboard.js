@@ -34,7 +34,6 @@ function clearError() {
     errorMessageDiv.style.display = 'none';
 }
 
-// ... (Funções formatarData, calcularPace, resetFormToCreateMode, preencherComDadosAleatorios não mudam) ...
 function formatarData(dataString) {
     const data = new Date(dataString);
     return data.toLocaleString('pt-PT', { 
@@ -111,7 +110,6 @@ async function fetchCorridas() {
     }
 }
 
-// ... (Função renderCorridas não muda) ...
 function renderCorridas(corridas) {
     if (corridas.length === 0) {
         listaCorridas.innerHTML = '<p style="text-align:center;">Nenhuma corrida registada ainda.</p>';
@@ -144,7 +142,6 @@ function renderCorridas(corridas) {
 async function handleFormSubmit(event) {
     event.preventDefault(); 
     clearError();
-    // ... (lógica de criar corridaData não muda)
     const corridaData = {
         data: inputData.value,
         distanciaKm: parseFloat(inputDistancia.value),
@@ -153,7 +150,6 @@ async function handleFormSubmit(event) {
     };
 
     if (editMode) {
-        // --- Lógica de ATUALIZAÇÃO (UPDATE) ---
         try {
             const corridaAtualizada = { ...corridaData, id: editId }; 
             const response = await fetch(`${API_CORRIDAS_URL}/${editId}`, {
@@ -221,7 +217,6 @@ async function handleEditClick(id) {
         if (!response.ok) throw new Error('Falha ao buscar dados para edição.');
 
         const corrida = await response.json();
-        // ... (lógica de preencher formulário não muda)
         const dataLocal = new Date(corrida.data);
         const dataParaInput = new Date(dataLocal.getTime() - (dataLocal.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
         inputData.value = dataParaInput;
@@ -239,7 +234,6 @@ async function handleEditClick(id) {
     }
 }
 
-// ... (Função handleListClick não muda) ...
 async function handleListClick(event) {
     if (event.target.classList.contains('btn-excluir')) {
         const id = event.target.dataset.id;

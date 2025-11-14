@@ -55,7 +55,6 @@ namespace CorridaApi.Controllers
             _context.tb_usuarios.Add(novoUsuario);
             await _context.SaveChangesAsync();
 
-            // --- CORREÇÃO (INÍCIO) ---
             // 5. Fazer o Login (Criar o Cookie) IMEDIATAMENTE após o registo
 
             // Criar a "Identidade" (Claims) para o novo utilizador
@@ -73,7 +72,6 @@ namespace CorridaApi.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
             
-            // --- CORREÇÃO (FIM) ---
 
             return Ok(new { message = "Utilizador registado e logado com sucesso." });
         }
@@ -112,7 +110,6 @@ namespace CorridaApi.Controllers
             return Ok(new { message = "Logout bem-sucedido." });
         }
         
-        // CORREÇÃO (Aviso CS1998): O método agora é síncrono
         [HttpGet("me")]
         public IActionResult GetCurrentUser()
         {

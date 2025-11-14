@@ -20,7 +20,6 @@ namespace CorridaApi.Models
 
         public string? Local { get; set; }
 
-        // --- A GRANDE MUDANÇA (INÍCIO) ---
         // Chave Estrangeira para o Utilizador
         [Required]
         public int UsuarioId { get; set; }
@@ -29,6 +28,5 @@ namespace CorridaApi.Models
         [JsonIgnore] // Não envie o objeto utilizador inteiro de volta
         [ForeignKey("UsuarioId")]
         public Usuario? Usuario { get; set; }
-        // --- A GRANDE MUDANÇA (FIM) ---
     }
 }
