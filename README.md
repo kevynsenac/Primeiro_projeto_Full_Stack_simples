@@ -79,15 +79,10 @@ Descubra a Porta do Backend:
 Atualize o Frontend:
 - Abra o ficheiro "frontend/login.js".
 - No topo, altere a constante "API_AUTH_URL" para a porta correta:
-// Exemplo: se a sua porta for 5184
-- const API_AUTH_URL = 'http://localhost:5184/api/Auth';
-
-Abra o ficheiro frontend/dashboard.js.
+// Exemplo: se a sua porta for 5184, "const API_AUTH_URL = 'http://localhost:5184/api/Auth';"
+- Abra o ficheiro frontend/dashboard.js.
 - No topo, altere as constantes "API_CORRIDAS_URL" e "API_AUTH_URL"  para a mesma porta:
-
-// Exemplo:
-- const API_CORRIDAS_URL = 'http://localhost:5184/api/Corridas';
-- const API_AUTH_URL = 'http://localhost:5184/api/Auth';
+// Exemplo: "const API_CORRIDAS_URL = 'http://localhost:5184/api/Corridas';" e "const API_AUTH_URL = 'http://localhost:5184/api/Auth';".
 
 3. Como Executar o Projeto
 Com as configurações acima feitas, o processo é simples. Você precisará de dois terminais abertos.
