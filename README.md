@@ -9,37 +9,37 @@ A aplicação utiliza SQLite como base de dados, tornando o projeto leve, portá
 Funcionalidades Implementadas
 Sistema de Autenticação:
 
-Registo: Criação de novos utilizadores (nome e senha) com encriptação de senha (BCrypt).
-Login: Autenticação segura que gera um Cookie de sessão (HttpOnly, SameSite=Lax).
-Logout: Invalidação do cookie de sessão.
-Segurança: A aplicação "expulsa" utilizadores não autenticados de volta para a página de login.
+- Registo: Criação de novos utilizadores (nome e senha) com encriptação de senha (BCrypt).
+- Login: Autenticação segura que gera um Cookie de sessão (HttpOnly, SameSite=Lax).
+- Logout: Invalidação do cookie de sessão.
+- Segurança: A aplicação "expulsa" utilizadores não autenticados de volta para a página de login.
 
 CRUD de Corridas (separado por utilizador):
-Criar (Create): Guardar novas corridas (o backend atribui-as automaticamente ao utilizador logado).
-Ler (Read): Listar apenas as corridas que pertencem ao utilizador logado.
-Atualizar (Update): Editar uma corrida existente (com verificação de propriedade).
-Apagar (Delete): Remover uma corrida (com verificação de propriedade).
+- Criar (Create): Guardar novas corridas (o backend atribui-as automaticamente ao utilizador logado).
+- Ler (Read): Listar apenas as corridas que pertencem ao utilizador logado.
+- Atualizar (Update): Editar uma corrida existente (com verificação de propriedade).
+- Apagar (Delete): Remover uma corrida (com verificação de propriedade).
 
 Frontend:
-Cálculo de "Pace" (min/km) feito no lado do cliente.
-Botão "Preencher Aleatório" para testes rápidos.
-Design moderno dark mode.
+- Cálculo de "Pace" (min/km) feito no lado do cliente.
+- Botão "Preencher Aleatório" para testes rápidos.
+- Design moderno dark mode.
 
 Tecnologias Utilizadas
 Backend:
-.NET 8 (Web API)
-Entity Framework Core
-Autenticação .NET (Cookies)
-BCrypt.Net (para Hashing de Senhas)
-Swagger / OpenAPI
+- .NET 8 (Web API)
+- Entity Framework Core
+- Autenticação .NET (Cookies)
+- BCrypt.Net (para Hashing de Senhas)
+- Swagger / OpenAPI
 
 Frontend:
-HTML5
-CSS3 (Flexbox, Grid)
-JavaScript (ES6+ com fetch API e gestão de credentials)
+- HTML5
+- CSS3 (Flexbox, Grid)
+- JavaScript (ES6+ com fetch API e gestão de credentials)
 
 Base de Dados:
-SQLite
+- SQLite
 
 1. Software Necessário (Pré-requisitos)
 Antes de executar, garanta que tem o seguinte software instalado:
