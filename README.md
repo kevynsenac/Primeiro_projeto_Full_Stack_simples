@@ -80,7 +80,7 @@ Atualize o Frontend:
 - Abra o ficheiro "frontend/login.js".
 - No topo, altere a constante "API_AUTH_URL" para a porta correta:
 // Exemplo: se a sua porta for 5184, "const API_AUTH_URL = 'http://localhost:5184/api/Auth';"
-- Abra o ficheiro frontend/dashboard.js.
+- Abra o ficheiro "frontend/dashboard.js".
 - No topo, altere as constantes "API_CORRIDAS_URL" e "API_AUTH_URL"  para a mesma porta:
 // Exemplo: "const API_CORRIDAS_URL = 'http://localhost:5184/api/Corridas';" e "const API_AUTH_URL = 'http://localhost:5184/api/Auth';".
 
@@ -109,3 +109,7 @@ B. Terminal 2: Executar o Frontend (Site)
 
 O seu navegador será aberto automaticamente (ex: http://localhost:5500/frontend/login.html) e a aplicação estará pronta a ser utilizada.
 Pode registar um novo utilizador e testar o CRUD.
+
+Obs:
+Caso você faça registro ou login e quando apertar o botão, a página piscar e as informações sumirem, significa que o bug de loop ainda está acontecendo com você,
+neste caso, tente o login novamente, só acontece na primeira vez que você entra na tela de login.
