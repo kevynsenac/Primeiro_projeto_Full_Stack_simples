@@ -76,9 +76,7 @@ function preencherComDadosAleatorios() {
 
 // --- Lógica da Aplicação (Consumo da API) ---
 
-/**
- * "Guarda de Rota" - Se não estiver logado, expulsa para o login
- */
+// "Guarda de Rota" - Se não estiver logado, expulsa para o login
 function verificarLogin(error) {
     // O backend devolveu 401 (Unauthorized)
     if (error.message.includes('401')) {
@@ -245,9 +243,7 @@ async function handleListClick(event) {
     }
 }
 
-/**
- * Lógica de Logout
- */
+// Lógica de Logout
 btnLogout.addEventListener('click', async (e) => {
     e.preventDefault();
 

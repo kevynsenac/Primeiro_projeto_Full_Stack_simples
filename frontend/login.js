@@ -13,22 +13,17 @@ const registerUsername = document.getElementById('register-username');
 const registerPassword = document.getElementById('register-password');
 const registerError = document.getElementById('register-error');
 
-/**
- * Redireciona para o dashboard
- */
+
+// Redireciona para o dashboard
 function irParaDashboard() {
-    // Adicionamos um pequeno atraso (100ms) antes de redirecionar.
-    // Isto dá tempo ao navegador para processar o Set-Cookie que acabou de
-    // receber do pedido de login/registo, resolvendo a "race condition"
-    // em que o dashboard.js tentava fazer fetch antes de o cookie estar pronto.
+    // Aguarda um pouco para garantir que o cookie foi criado
     setTimeout(() => {
         window.location.href = 'dashboard.html';
     }, 100); 
 }
 
-/**
- * Lógica do formulário de Login
- */
+
+// Lógica do formulário de Login
 formLogin.addEventListener('submit', async (e) => {
     e.preventDefault();
     loginError.style.display = 'none';
@@ -50,8 +45,25 @@ formLogin.addEventListener('submit', async (e) => {
         if (response.ok) {
             irParaDashboard(); // Sucesso
         } else {
+            // Tratamento de Erro de Login
             const errorText = await response.text();
-            throw new Error(errorText || 'Falha no login.');
+            let friendlyErrorMessage = 'Nome de utilizador ou senha inválidos.';
+
+            try {
+                const errorJson = JSON.parse(errorText);
+
+                if (errorJson.title || errorJson.errors) {
+                    friendlyErrorMessage = 'Nome de utilizador ou senha inválidos.';
+                } else if (errorJson.message) {
+                    friendlyErrorMessage = errorJson.message;
+                }
+            } catch (e) {
+                if (errorText && errorText.length < 255) {
+                    friendlyErrorMessage = errorText;
+                }
+            }
+
+            throw new Error(friendlyErrorMessage);
         }
     } catch (error) {
         loginError.textContent = error.message;
@@ -59,9 +71,7 @@ formLogin.addEventListener('submit', async (e) => {
     }
 });
 
-/**
- * Lógica do formulário de Registo
- */
+// Lógica do formulário de Registo
 formRegister.addEventListener('submit', async (e) => {
     e.preventDefault();
     registerError.style.display = 'none';
@@ -93,7 +103,32 @@ formRegister.addEventListener('submit', async (e) => {
             irParaDashboard();
         } else {
             const errorText = await response.text();
-            throw new Error(errorText || 'Falha no registo.');
+            let friendlyErrorMessage = 'Falha no registo. Por favor, verifique os seus dados.';
+
+            // 1. Verificar se o erro é sobre o nome de utilizador já existir (Conflict)
+            if (response.status === 409 || errorText.toLowerCase().includes('exists') || errorText.toLowerCase().includes('já existe') || errorText.toLowerCase().includes(authRequest.nomeUsuario.toLowerCase())) {
+                friendlyErrorMessage = `O nome de utilizador "${authRequest.nomeUsuario}" já está registado. Por favor, escolha outro.`;
+            }
+
+            // 2. Tentar analisar o JSON para erros de validação (como senha curta)
+            try {
+                const errorJson = JSON.parse(errorText);
+
+                if (errorJson.errors && errorJson.errors.Senha) {
+                    // Erro de validação da senha
+                    friendlyErrorMessage = errorJson.errors.Senha[0];
+                } else if (errorJson.title) {
+                    // Erro geral do Validation Problem
+                    friendlyErrorMessage = errorJson.title;
+                } else if (errorJson.message) {
+                    // Outras APIs usam 'message' para erros
+                    friendlyErrorMessage = errorJson.message;
+                }
+            } catch (e) {
+                // Se a análise do JSON falhar, mantemos a mensagem mais amigável já definida.
+            }
+            
+            throw new Error(friendlyErrorMessage);
         }
     } catch (error) {
         // Mostra o erro no formulário de registo

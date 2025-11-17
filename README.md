@@ -89,15 +89,15 @@ Com as configurações acima feitas, o processo é simples. Você precisará de 
 
 A. Terminal 1: Executar o Backend (API)
 - Abra o Terminal Integrado do VSCode (atalho "Ctrl + J").
-- Navegue até à pasta backend (com "cd backend")
+- Navegue até à pasta backend (com o código "cd backend" no terminal)
 
-- (Só na primeira vez) Instale os pacotes .NET:
-dotnet restore
+- (Só na primeira vez) Instale os pacotes .NET a partir do código:
+dotnet restore (ou "dotnet ef migrations list", caso o código anterior não funcione)
 
-- (Só na primeira vez) Crie a base de dados corridas.db a partir do código:
+- (Só na primeira vez) Crie a base de dados "corridas.db" a partir do código:
 dotnet ef database update
 
-- Inicie o servidor da API:
+- Inicie o servidor da API a partir do código:
 dotnet run
 
 - Mantenha este terminal em execução.
