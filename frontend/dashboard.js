@@ -19,10 +19,9 @@ const inputLocal = document.getElementById('local');
 const btnSalvar = document.getElementById('btn-salvar');
 const btnCancelar = document.getElementById('btn-cancelar');
 const btnRandom = document.getElementById('btn-random');
-const btnLogout = document.getElementById('btn-logout'); // <-- NOVO
+const btnLogout = document.getElementById('btn-logout');
 
 // --- Funções Auxiliares ---
-
 function showError(message) {
     errorMessageDiv.textContent = `Erro: ${message}.`;
     errorMessageDiv.style.display = 'block';
